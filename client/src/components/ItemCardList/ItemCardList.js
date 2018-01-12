@@ -1,9 +1,22 @@
-import React, { Component } from 'react';
+import React from "react";
+import Masonry from "react-masonry-component";
+import ItemCard from "../ItemCard";
 
-export default class ItemCardList extends Component {
-  render() {
-    return (
-      <div>Item Card List</div>
-    )
-  }
-}
+const ItemCardList = ({ itemList }) => (
+  <Masonry // default 'div'
+    className="item-gallery"
+    options={{
+      transitionDuration: "0.5s"
+    }}
+  >
+    {itemList.map(item => {
+      return (
+        <div key={item.id} className="card-wrapper">
+          <ItemCard item={item} />
+        </div>
+      );
+    })}
+  </Masonry>
+);
+
+export default ItemCardList;
