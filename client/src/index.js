@@ -9,21 +9,23 @@ import "./index.css";
 import muiTheme from "./config/theme";
 
 import Layout from "./components/Layout";
+import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";
 import Items from "./containers/Items";
 
 const Boomtown = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
-    <Layout>
-      <Router>
+    <Router>
+      <Layout>
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/" component={Items} />
           {/* <Route exact path="/login" component={Profile} />
           <Route exact path="/login" component={Share} /> */}
+          <Route path="/" component={NotFound} />
         </Switch>
-      </Router>
-    </Layout>
+      </Layout>
+    </Router>
   </MuiThemeProvider>
 );
 

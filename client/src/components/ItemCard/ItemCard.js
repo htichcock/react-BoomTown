@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardText
 } from "material-ui/Card";
-import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
 
 const ItemCard = ({ item }) => (
   <Card key={item.id}>
@@ -29,7 +29,9 @@ const ItemCard = ({ item }) => (
     />
     <CardTitle title={item.title} subtitle={item.tags.join(", ")} />
     <CardText>{item.description}</CardText>
-    <CardActions>{!item.borrower && <FlatButton label="borrow" />}</CardActions>
+    <CardActions>
+      {!item.borrower && <RaisedButton secondary label="borrow" />}
+    </CardActions>
   </Card>
 );
 

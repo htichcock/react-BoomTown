@@ -1,0 +1,31 @@
+.nav-btn-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.header-bar {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 8px !important;
+}
+.header-bar h1 {
+  flex: 1 1;
+}
+.logo-filter-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-flow: row wrap;
+  margin: 0;
+}
+.logo-wrapper {
+  margin: 4px 32px 0 16px;
+}
+.filter-select {
+  margin-bottom: 8px;
+}
+.profile-button {
+  margin: 0 15px;
+}

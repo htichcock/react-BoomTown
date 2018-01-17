@@ -16,6 +16,9 @@
   margin: 0 auto !important;
   width: 100% !important;
 }
+body {
+  overflow-y: initial;
+}
 
 .loading-wrapper {
   width: 100%;

@@ -1,13 +1,14 @@
-.appContentWrapper {
-    display: flex;
-    min-height: 100%;
-    flex-direction:column;
+.app-content-wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
-.appContent {
+.app-content {
   display: flex;
   margin: 0 auto;
   max-width: 1140px;
   width: 100%;
-  flex:1;
+  flex: 1;
 }
