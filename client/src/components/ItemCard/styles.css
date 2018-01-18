@@ -1,0 +1,5 @@
+.media-overlay * {
+  text-transform: uppercase !important;
+  color: rgba(255, 255, 255, 0.54) !important;
+  font-size: 14px !important;
+}

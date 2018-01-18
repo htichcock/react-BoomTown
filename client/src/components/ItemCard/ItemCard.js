@@ -8,11 +8,13 @@ import {
   CardText
 } from "material-ui/Card";
 import RaisedButton from "material-ui/RaisedButton";
+import "./styles.css";
 
 const ItemCard = ({ item }) => (
   <Card key={item.id}>
     {item.borrower ? (
       <CardMedia
+        className="media-overlay"
         overlay={<CardTitle title={`Lent to ${item.borrower.fullname}`} />}
       >
         <img src={item.imageurl} alt={item.title} />

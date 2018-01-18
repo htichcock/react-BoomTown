@@ -1,6 +1,7 @@
 import React from "react";
 import Masonry from "react-masonry-component";
 import ItemCard from "../ItemCard";
+import "./styles.css";
 
 const ItemCardList = ({ itemList }) => (
   <Masonry // default 'div'

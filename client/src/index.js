@@ -12,6 +12,7 @@ import Layout from "./components/Layout";
 import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";
 import Items from "./containers/Items";
+import Profile from "./containers/Profile";
 
 const Boomtown = () => (
   <MuiThemeProvider muiTheme={muiTheme}>
@@ -20,8 +21,8 @@ const Boomtown = () => (
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/" component={Items} />
-          {/* <Route exact path="/login" component={Profile} />
-          <Route exact path="/login" component={Share} /> */}
+          <Route exact path="/profile" component={Profile} />
+          {/* <Route exact path="/login" component={Share} />  */}
           <Route path="/" component={NotFound} />
         </Switch>
       </Layout>
