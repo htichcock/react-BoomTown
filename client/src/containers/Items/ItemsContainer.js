@@ -12,13 +12,13 @@ class ItemsContainer extends Component {
         return (
             <Items
                 itemsData={this.props.itemsData}
-                isLoading={this.props.isLoading}
+                isLoaded={this.props.isLoaded}
             />
         );
     }
 }
 const mapStateToProps = state => ({
-    isLoading: state.items.isLoading,
+    isLoaded: state.items.isLoaded,
     itemsData: state.items.itemsData,
     error: state.items.error
 });

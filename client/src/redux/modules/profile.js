@@ -1,40 +1,42 @@
 import MD5 from 'crypto-js/md5';
 import moment from 'moment';
+import { filterItemList } from '../helpers';
 // ACTIONS
 
-const ITEMS_GET_LOADING = 'ITEMS_GET_LOADING';
-const ITEMS_SET_MASTER = 'ITEMS_SET_MASTER';
-const ITEMS_GET_ERROR = 'ITEMS_GET_ERROR';
-const ITEMS_GET_FILTERED = 'ITEMS_GET_FILTERED';
+const PROFILE_GET_LOADING = 'PROFILE_GET_LOADING';
+const PROFILE_SET_MASTER = 'PROFILE_SET_MASTER';
+const PROFILE_GET_ERROR = 'PROFILE_GET_ERROR';
+const PROFILE_GET_FILTERED = 'PROFILE_GET_FILTERED';
 
 // ACTION CREATORS
 
-const getItemsLoading = () => ({ type: ITEMS_GET_LOADING });
-const setItemsMaster = itemsMaster => ({
-    type: ITEMS_SET_MASTER,
-    payload: itemsMaster
+const getProfileLoading = () => ({ type: PROFILE_GET_LOADING });
+const setProfileItemsMaster = profileItemsMaster => ({
+    type: PROFILE_SET_MASTER,
+    payload: profileItemsMaster
 });
-export const getItemsFiltered = (itemsData, filterBy = null) => ({
-    type: ITEMS_GET_FILTERED,
-    payload: { itemsData, filterBy }
+export const getProfileItemsFiltered = (profileItems, filterBy = null) => ({
+    type: PROFILE_GET_FILTERED,
+    payload: { profileItems, filterBy }
 });
-const getItemsError = error => ({ type: ITEMS_GET_ERROR, payload: error });
+const getProfileError = error => ({ type: PROFILE_GET_ERROR, payload: error });
 
-export const fetchItemsAndUsers = userid => dispatch => {
-    dispatch(getItemsLoading());
+export const fetchItemsAndUsers = userId => dispatch => {
+    dispatch(getProfileLoading());
+
+    const ITEMS_URL = `http://localhost:4000/items/?itemowner=${userId}`;
+    const USERS_URL = 'http://localhost:4000/users';
+
+    const items = fetch(ITEMS_URL).then(r => r.json());
+    const users = fetch(USERS_URL).then(r => r.json());
+
     function generateGravatarURL(email) {
         return `//www.gravatar.com/avatar/${MD5(email).toString()}.jpg`;
     }
     function generateTimeFromNow() {
         return moment(this.created).fromNow(); // this bound to item obj
     }
-    const ITEMS_URL = `http://localhost:4000/items/?itemowner=${userid}`;
-    const USERS_URL = 'http://localhost:4000/users';
-
-    const items = fetch(ITEMS_URL).then(r => r.json());
-    const users = fetch(USERS_URL).then(r => r.json());
-
-    let newItemsData = [];
+    let newProfileItemsData = [];
 
     Promise.all([items, users])
         .then(response => {
@@ -49,7 +51,7 @@ export const fetchItemsAndUsers = userid => dispatch => {
                 userTable[user.id] = user;
             });
 
-            newItemsData = itemsArray.map(item => {
+            newProfileItemsData = itemsArray.map(item => {
                 if (item.itemowner) {
                     item.itemowner = userTable[item.itemowner];
                 }
@@ -59,82 +61,56 @@ export const fetchItemsAndUsers = userid => dispatch => {
                 item.timeFromNowFunc = generateTimeFromNow.bind(item);
                 return item;
             });
-            dispatch(setItemsMaster(newItemsData));
+            dispatch(setProfileItemsMaster(newProfileItemsData));
         })
-        .catch(error => dispatch(getItemsError(error.message)));
+        .catch(error => dispatch(getProfileError(error.message)));
 };
-// HELPERS
-/*
-filterBy = {
-    filterBy: "itemowner",
-    filter: "123123019230(id)"
-}
-filterBy = {
-    filterBy: "tag",
-    filter: ["strging","asdja"]
-}
-filterBy
-*/
-function filterItemsData(itemsData, filterBy) {
-    let filteredItemsData = itemsData;
-    if (filterBy.filterBy === 'itemowner') {
-        // probably wont be used
-        filteredItemsData = itemsData.filter(
-            item => filterBy.filter === item.itemowner.id
-        );
-    } else if (filterBy.filterBy === 'tag') {
-        filteredItemsData = itemsData.filter(item =>
-            item.tags.some(tag => filterBy.filter.includes(tag))
-        );
-    } else {
-        filteredItemsData = itemsData.filter(
-            item => filterBy.filter === item[filterBy.filterBy]
-        );
-    }
-    return filteredItemsData;
-}
+
 // REDUCER
 
 export default (
     state = {
-        itemsData: [],
-        itemsMaster: [],
-        isLoading: false,
+        profileItemsData: [],
+        profileItemsMaster: [],
+        isLoaded: false,
         error: null
     },
     action
 ) => {
     switch (action.type) {
-    case ITEMS_GET_LOADING: {
-        return { ...state, isLoading: true, error: null };
+    case PROFILE_GET_LOADING: {
+        return { ...state, isLoaded: false, error: null };
     }
-    case ITEMS_SET_MASTER: {
-        const itemsMaster = action.payload;
-        const itemsData = state.itemsData.length
-            ? state.itemsData
-            : itemsMaster;
+    case PROFILE_SET_MASTER: {
+        const profileItemsMaster = action.payload;
+        const profileItemsData = state.profileItemsData.length
+            ? state.profileItemsData
+            : profileItemsMaster;
         return {
             ...state,
-            itemsData,
-            itemsMaster,
-            isLoading: false,
+            profileItemsData,
+            profileItemsMaster,
+            isLoaded: true,
             error: null
         };
     }
-    case ITEMS_GET_ERROR: {
-        return { ...state, isLoading: false, error: action.payload };
+    case PROFILE_GET_ERROR: {
+        return { ...state, isLoaded: false, error: action.payload };
     }
-    case ITEMS_GET_FILTERED: {
-        const itemsData =
-                action.payload.filterBy && state.itemsMaster.length
-                    ? filterItemsData(
-                        state.itemsMaster,
+    case PROFILE_GET_FILTERED: {
+        let profileItemsData =
+                action.payload.filterBy && state.profileItemsMaster.length
+                    ? filterItemList(
+                        state.profileItemsMaster,
                         action.payload.filterBy
                     )
-                    : state.itemsData;
+                    : state.profileItemsData;
+        if (!profileItemsData.length) {
+            profileItemsData = state.profileItemsMaster;
+        }
         return {
             ...state,
-            itemsData,
+            profileItemsData,
             error: null
         };
     }

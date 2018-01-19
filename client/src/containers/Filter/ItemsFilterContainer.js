@@ -27,13 +27,13 @@ class FilterContainer extends Component {
                 handleChange={this.handleChange}
                 values={this.state.values}
                 itemsMaster={this.props.itemsMaster}
-                isLoading={this.props.isLoading}
+                isLoaded={this.props.isLoaded}
             />
         );
     }
 }
 const mapStateToProps = state => ({
-    isLoading: state.items.isLoading,
+    isLoaded: state.items.isLoaded,
     itemsMaster: state.items.itemsMaster,
     error: state.items.error
 });

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const Filter = ({ handleChange, values, itemsMaster, isLoading }) =>
-    (isLoading ? (
+const Filter = ({ handleChange, values, itemsMaster, isLoaded }) =>
+    (!isLoaded ? (
         <SelectField
             disabled
             className="filter-select"

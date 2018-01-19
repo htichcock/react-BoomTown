@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import ItemCardList from '../../components/ItemCardList';
 import './styles.css';
 
-const Items = ({ itemsData, isLoading }) =>
-    (!isLoading ? (
+const Items = ({ itemsData, isLoaded }) =>
+    (isLoaded ? (
         <ItemCardList itemsData={itemsData} />
     ) : (
         <div className="loading-wrapper">

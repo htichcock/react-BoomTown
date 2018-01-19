@@ -1,34 +1,27 @@
 import React from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
 import PropTypes from 'prop-types';
+import { Card, CardHeader } from 'material-ui/Card';
 import ItemCardList from '../../components/ItemCardList';
 import './styles.css';
-import {
-    Card,
-    CardActions,
-    CardHeader,
-    CardMedia,
-    CardTitle,
-    CardText
-} from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
 
-const ProfileHeader = ({ currentUser }) => (
+const ProfileHeader = ({ userId }) => (
     <Card>
-        <CardHeader title={currentUser.fullname} />
+        <CardHeader title={userId} />
     </Card>
 );
 
-const Items = ({ itemList, isLoaded, currentUser }) => (isLoaded ? (
-    <div style={{ width: '100%' }}>
-        <ProfileHeader currentUser={currentUser} />
-        <ItemCardList itemList={itemList} />
-    </div>
-) : (
-    <div className="loading-wrapper">
-        <CircularProgress color="white" />
-    </div>
-));
+const Items = ({ profileItemsData, isLoaded, userId }) =>
+    (isLoaded ? (
+        <div style={{ width: '100%' }}>
+            <ProfileHeader userId={userId} />
+            <ItemCardList itemsData={profileItemsData} />
+        </div>
+    ) : (
+        <div className="loading-wrapper">
+            <CircularProgress color="white" />
+        </div>
+    ));
 Items.propTypes = {
     itemList: PropTypes.array.isRequired
 };

@@ -1,8 +1,11 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Link } from 'react-router-dom';
-import Filter from '../../containers/Filter';
+import { Link, Switch, Route } from 'react-router-dom';
+import {
+    ItemsFilterContainer as ItemsFilter,
+    ProfileFilterContainer as ProfileFilter
+} from '../../containers/Filter';
 import logo from '../../images/boomtown-logo.svg';
 import './styles.css';
 
@@ -22,12 +25,19 @@ const HeaderBar = () => (
                             alt="Boomtown Logo"
                         />
                     </div>
-                    <Filter />
+                    <Switch>
+                        <Route
+                            exact
+                            path="/profile/:userId"
+                            component={ProfileFilter}
+                        />
+                        <Route exact path="/" component={ItemsFilter} />
+                    </Switch>
                 </div>
             }
             iconElementRight={
                 <div className="nav-btn-wrapper">
-                    <Link to={'/profile'}>
+                    <Link to={'/profile/k721A4pRNggCx7b6ryEE8vx1VIi1'}>
                         <RaisedButton
                             labelStyle={{ fontWeight: 400 }}
                             label="My Profile"

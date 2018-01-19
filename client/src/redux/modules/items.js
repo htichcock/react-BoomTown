@@ -1,5 +1,6 @@
 import MD5 from 'crypto-js/md5';
 import moment from 'moment';
+import { filterItemList } from '../helpers';
 // ACTIONS
 
 const ITEMS_GET_LOADING = 'ITEMS_GET_LOADING';
@@ -63,50 +64,21 @@ export const fetchItemsAndUsers = () => dispatch => {
         })
         .catch(error => dispatch(getItemsError(error.message)));
 };
-// HELPERS
-/*
-filterBy = {
-    filterBy: "itemowner",
-    filter: "123123019230(id)"
-}
-filterBy = {
-    filterBy: "tag",
-    filter: ["strging","asdja"]
-}
-filterBy
-*/
-function filterItemsData(itemsData, filterBy) {
-    let filteredItemsData = itemsData;
-    if (filterBy.filterBy === 'itemowner') {
-        // probably wont be used also not tested fully
-        filteredItemsData = itemsData.filter(
-            item => filterBy.filter === item.itemowner.id
-        );
-    } else if (filterBy.filterBy === 'tag') {
-        filteredItemsData = itemsData.filter(item =>
-            item.tags.some(tag => filterBy.filter.includes(tag))
-        );
-    } else {
-        filteredItemsData = itemsData.filter(
-            item => filterBy.filter === item[filterBy.filterBy]
-        );
-    }
-    return filteredItemsData;
-}
+
 // REDUCER
 
 export default (
     state = {
         itemsData: [],
         itemsMaster: [],
-        isLoading: false,
+        isLoaded: false,
         error: null
     },
     action
 ) => {
     switch (action.type) {
     case ITEMS_GET_LOADING: {
-        return { ...state, isLoading: true, error: null };
+        return { ...state, isLoaded: false, error: null };
     }
     case ITEMS_SET_MASTER: {
         const itemsMaster = action.payload;
@@ -117,20 +89,17 @@ export default (
             ...state,
             itemsData,
             itemsMaster,
-            isLoading: false,
+            isLoaded: true,
             error: null
         };
     }
     case ITEMS_GET_ERROR: {
-        return { ...state, isLoading: false, error: action.payload };
+        return { ...state, isLoaded: false, error: action.payload };
     }
     case ITEMS_GET_FILTERED: {
         let itemsData =
                 action.payload.filterBy && state.itemsMaster.length
-                    ? filterItemsData(
-                        state.itemsMaster,
-                        action.payload.filterBy
-                    )
+                    ? filterItemList(state.itemsMaster, action.payload.filterBy)
                     : state.itemsData;
         if (!itemsData.length) {
             itemsData = state.itemsMaster;
