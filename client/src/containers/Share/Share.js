@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 
 class Share extends Component {
-
     render() {
-        return (
-            <div>Share </div>
-        );
+        return <div>Share </div>;
     }
 }
 

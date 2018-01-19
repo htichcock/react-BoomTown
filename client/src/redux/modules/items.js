@@ -3,13 +3,21 @@ import moment from 'moment';
 // ACTIONS
 
 const ITEMS_GET_LOADING = 'ITEMS_GET_LOADING';
-const ITEMS_GET = 'ITEMS_GET';
+const ITEMS_SET_MASTER = 'ITEMS_SET_MASTER';
 const ITEMS_GET_ERROR = 'ITEMS_GET_ERROR';
+const ITEMS_GET_FILTERED = 'ITEMS_GET_FILTERED';
 
 // ACTION CREATORS
 
 const getItemsLoading = () => ({ type: ITEMS_GET_LOADING });
-const getItems = itemsData => ({ type: ITEMS_GET, payload: itemsData });
+const setItemsMaster = itemsMaster => ({
+    type: ITEMS_SET_MASTER,
+    payload: itemsMaster
+});
+export const getItemsFiltered = (itemsData, filterBy = null) => ({
+    type: ITEMS_GET_FILTERED,
+    payload: { itemsData, filterBy }
+});
 const getItemsError = error => ({ type: ITEMS_GET_ERROR, payload: error });
 
 export const fetchItemsAndUsers = () => dispatch => {
@@ -51,16 +59,46 @@ export const fetchItemsAndUsers = () => dispatch => {
                 item.timeFromNowFunc = generateTimeFromNow.bind(item);
                 return item;
             });
-            dispatch(getItems(newItemsData));
+            dispatch(setItemsMaster(newItemsData));
         })
-        .catch(error => dispatch(getItemsError(error)));
+        .catch(error => dispatch(getItemsError(error.message)));
 };
-
+// HELPERS
+/*
+filterBy = {
+    filterBy: "itemowner",
+    filter: "123123019230(id)"
+}
+filterBy = {
+    filterBy: "tag",
+    filter: ["strging","asdja"]
+}
+filterBy
+*/
+function filterItemsData(itemsData, filterBy) {
+    let filteredItemsData = itemsData;
+    if (filterBy.filterBy === 'itemowner') {
+        // probably wont be used
+        filteredItemsData = itemsData.filter(
+            item => filterBy.filter === item.itemowner.id
+        );
+    } else if (filterBy.filterBy === 'tag') {
+        filteredItemsData = itemsData.filter(item =>
+            item.tags.some(tag => filterBy.filter.includes(tag))
+        );
+    } else {
+        filteredItemsData = itemsData.filter(
+            item => filterBy.filter === item[filterBy.filterBy]
+        );
+    }
+    return filteredItemsData;
+}
 // REDUCER
 
-const itemsReducer = (
+export default (
     state = {
         itemsData: [],
+        itemsMaster: [],
         isLoading: false,
         error: null
     },
@@ -70,10 +108,15 @@ const itemsReducer = (
     case ITEMS_GET_LOADING: {
         return { ...state, isLoading: true, error: null };
     }
-    case ITEMS_GET: {
+    case ITEMS_SET_MASTER: {
+        const itemsMaster = action.payload;
+        const itemsData = state.itemsData.length
+            ? state.itemsData
+            : itemsMaster;
         return {
             ...state,
-            itemsData: action.payload,
+            itemsData,
+            itemsMaster,
             isLoading: false,
             error: null
         };
@@ -81,10 +124,22 @@ const itemsReducer = (
     case ITEMS_GET_ERROR: {
         return { ...state, isLoading: false, error: action.payload };
     }
+    case ITEMS_GET_FILTERED: {
+        const itemsData =
+                action.payload.filterBy && state.itemsMaster.length
+                    ? filterItemsData(
+                        state.itemsMaster,
+                        action.payload.filterBy
+                    )
+                    : state.itemsData;
+        return {
+            ...state,
+            itemsData,
+            error: null
+        };
+    }
     default: {
         return state;
     }
     }
 };
-
-export default itemsReducer;
