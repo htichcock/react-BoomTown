@@ -20,7 +20,7 @@ export const getItemsFiltered = (itemsData, filterBy = null) => ({
 });
 const getItemsError = error => ({ type: ITEMS_GET_ERROR, payload: error });
 
-export const fetchItemsAndUsers = () => dispatch => {
+export const fetchItemsAndUsers = userid => dispatch => {
     dispatch(getItemsLoading());
     function generateGravatarURL(email) {
         return `//www.gravatar.com/avatar/${MD5(email).toString()}.jpg`;
@@ -28,7 +28,7 @@ export const fetchItemsAndUsers = () => dispatch => {
     function generateTimeFromNow() {
         return moment(this.created).fromNow(); // this bound to item obj
     }
-    const ITEMS_URL = 'http://localhost:4000/items';
+    const ITEMS_URL = `http://localhost:4000/items/?itemowner=${userid}`;
     const USERS_URL = 'http://localhost:4000/users';
 
     const items = fetch(ITEMS_URL).then(r => r.json());
@@ -78,7 +78,7 @@ filterBy
 function filterItemsData(itemsData, filterBy) {
     let filteredItemsData = itemsData;
     if (filterBy.filterBy === 'itemowner') {
-        // probably wont be used also not tested fully
+        // probably wont be used
         filteredItemsData = itemsData.filter(
             item => filterBy.filter === item.itemowner.id
         );
@@ -125,16 +125,13 @@ export default (
         return { ...state, isLoading: false, error: action.payload };
     }
     case ITEMS_GET_FILTERED: {
-        let itemsData =
+        const itemsData =
                 action.payload.filterBy && state.itemsMaster.length
                     ? filterItemsData(
                         state.itemsMaster,
                         action.payload.filterBy
                     )
                     : state.itemsData;
-        if (!itemsData.length) {
-            itemsData = state.itemsMaster;
-        }
         return {
             ...state,
             itemsData,

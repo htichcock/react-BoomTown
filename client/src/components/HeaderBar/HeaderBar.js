@@ -1,15 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-
 import { Link } from 'react-router-dom';
+import Filter from '../../containers/Filter';
 import logo from '../../images/boomtown-logo.svg';
 import './styles.css';
 
-const HeaderBar = ({ isLoading, itemsMaster }) => (
+const HeaderBar = () => (
     <div className="app-header-wrapper">
         <AppBar
             style={{
@@ -25,37 +22,7 @@ const HeaderBar = ({ isLoading, itemsMaster }) => (
                             alt="Boomtown Logo"
                         />
                     </div>
-                    {isLoading ? (
-                        <SelectField
-                            disabled
-                            className="filter-select"
-                            hintText="Filter by Tag"
-                        />
-                    ) : (
-                        <SelectField
-                            className="filter-select"
-                            hintText="Filter by Tag"
-                        >
-                            {itemsMaster
-                                .map(item => item.tags)
-                                .join()
-                                .split(',')
-                                .reduce(
-                                    (accu, curr) =>
-                                        (accu.includes(curr)
-                                            ? accu
-                                            : accu.concat(curr)),
-                                    []
-                                )
-                                .map(tag => (
-                                    <MenuItem
-                                        value={tag}
-                                        label={tag}
-                                        primaryText={tag}
-                                    />
-                                ))}
-                        </SelectField>
-                    )}
+                    <Filter />
                 </div>
             }
             iconElementRight={
@@ -84,9 +51,4 @@ const HeaderBar = ({ isLoading, itemsMaster }) => (
     </div>
 );
 
-const mapStateToProps = state => ({
-    isLoading: state.items.isLoading,
-    itemsMaster: state.items.itemsMaster,
-    error: state.items.error
-});
-export default connect(mapStateToProps)(HeaderBar);
+export default HeaderBar;

@@ -13,6 +13,6 @@ const Items = ({ itemsData, isLoading }) =>
         </div>
     ));
 Items.propTypes = {
-    itemList: PropTypes.array.isRequired
+    itemsData: PropTypes.array.isRequired
 };
 export default Items;
