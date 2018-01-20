@@ -11,8 +11,8 @@ const ProfileHeader = ({ userId }) => (
     </Card>
 );
 
-const Items = ({ profileItemsData, isLoaded, userId }) =>
-    (isLoaded ? (
+const Items = ({ profileItemsData, isLoading, userId }) =>
+    (!isLoading ? (
         <div style={{ width: '100%' }}>
             <ProfileHeader userId={userId} />
             <ItemCardList itemsData={profileItemsData} />

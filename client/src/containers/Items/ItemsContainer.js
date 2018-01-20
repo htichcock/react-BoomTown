@@ -12,14 +12,16 @@ class ItemsContainer extends Component {
         return (
             <Items
                 itemsData={this.props.itemsData}
-                isLoaded={this.props.isLoaded}
+                isLoading={this.props.isLoading}
+                itemsFilters={this.props.itemsFilters}
             />
         );
     }
 }
 const mapStateToProps = state => ({
-    isLoaded: state.items.isLoaded,
+    isLoading: state.items.isLoading,
     itemsData: state.items.itemsData,
+    itemsFilters: state.items.itemsFilters,
     error: state.items.error
 });
 export default connect(mapStateToProps)(ItemsContainer);

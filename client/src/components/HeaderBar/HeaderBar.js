@@ -1,15 +1,14 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Link, Switch, Route } from 'react-router-dom';
-import {
-    ItemsFilterContainer as ItemsFilter,
-    ProfileFilterContainer as ProfileFilter
-} from '../../containers/Filter';
+import { Link, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Filter from '../Filter';
 import logo from '../../images/boomtown-logo.svg';
 import './styles.css';
+import { getItemsFilters } from '../../redux/modules/items';
 
-const HeaderBar = () => (
+const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
     <div className="app-header-wrapper">
         <AppBar
             style={{
@@ -18,21 +17,29 @@ const HeaderBar = () => (
             className="header-bar"
             iconElementLeft={
                 <div className="logo-filter-wrapper">
-                    <div className="logo-wrapper">
-                        <img
-                            style={{ height: '36px' }}
-                            src={logo}
-                            alt="Boomtown Logo"
-                        />
-                    </div>
-                    <Switch>
-                        <Route
-                            exact
-                            path="/profile/:userId"
-                            component={ProfileFilter}
-                        />
-                        <Route exact path="/" component={ItemsFilter} />
-                    </Switch>
+                    <Link to={'/'}>
+                        <div className="logo-wrapper">
+                            <img
+                                style={{ height: '36px' }}
+                                src={logo}
+                                alt="Boomtown Logo"
+                            />
+                        </div>
+                    </Link>
+                    <Route
+                        exact
+                        path="/"
+                        render={() => (
+                            <Filter
+                                handleChange={(event, index, values) => {
+                                    dispatch(getItemsFilters(values));
+                                }}
+                                isLoading={isLoading}
+                                itemsData={itemsData}
+                                values={itemsFilters}
+                            />
+                        )}
+                    />
                 </div>
             }
             iconElementRight={
@@ -61,4 +68,9 @@ const HeaderBar = () => (
     </div>
 );
 
-export default HeaderBar;
+const mapStateToProps = state => ({
+    isLoading: state.items.isLoading,
+    itemsData: state.items.itemsData,
+    itemsFilters: state.items.itemsFilters
+});
+export default connect(mapStateToProps)(HeaderBar);

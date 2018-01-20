@@ -13,13 +13,13 @@ class ProfileContainer extends Component {
             <Profile
                 userId={this.props.match.params.userId}
                 profileItemsData={this.props.profileItemsData}
-                isLoaded={this.props.isLoaded}
+                isLoading={this.props.isLoading}
             />
         );
     }
 }
 const mapStateToProps = state => ({
-    isLoaded: state.profile.isLoaded,
+    isLoading: state.profile.isLoading,
     profileItemsData: state.profile.profileItemsData,
     error: state.items.error
 });

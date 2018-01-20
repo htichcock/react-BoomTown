@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const Filter = ({ handleChange, values, itemsMaster, isLoaded }) =>
-    (!isLoaded ? (
+const Filter = ({ handleChange, values, itemsData, isLoading }) =>
+    (isLoading ? (
         <SelectField
             disabled
             className="filter-select"
@@ -18,7 +18,7 @@ const Filter = ({ handleChange, values, itemsMaster, isLoaded }) =>
             className="filter-select"
             hintText="Filter by Tag"
         >
-            {itemsMaster
+            {itemsData
                 .map(item => item.tags)
                 .join()
                 .split(',')

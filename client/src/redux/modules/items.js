@@ -1,34 +1,25 @@
-import MD5 from 'crypto-js/md5';
-import moment from 'moment';
-import { filterItemList } from '../helpers';
 // ACTIONS
 
 const ITEMS_GET_LOADING = 'ITEMS_GET_LOADING';
-const ITEMS_SET_MASTER = 'ITEMS_SET_MASTER';
+const ITEMS_GET = 'ITEMS_SET=';
 const ITEMS_GET_ERROR = 'ITEMS_GET_ERROR';
-const ITEMS_GET_FILTERED = 'ITEMS_GET_FILTERED';
+const ITEMS_GET_FILTERS = 'ITEMS_GET_FILTERS';
 
 // ACTION CREATORS
 
 const getItemsLoading = () => ({ type: ITEMS_GET_LOADING });
-const setItemsMaster = itemsMaster => ({
-    type: ITEMS_SET_MASTER,
-    payload: itemsMaster
+const getItems = itemsData => ({
+    type: ITEMS_GET,
+    payload: itemsData
 });
-export const getItemsFiltered = (itemsData, filterBy = null) => ({
-    type: ITEMS_GET_FILTERED,
-    payload: { itemsData, filterBy }
+export const getItemsFilters = filters => ({
+    type: ITEMS_GET_FILTERS,
+    payload: filters
 });
 const getItemsError = error => ({ type: ITEMS_GET_ERROR, payload: error });
 
 export const fetchItemsAndUsers = () => dispatch => {
     dispatch(getItemsLoading());
-    function generateGravatarURL(email) {
-        return `//www.gravatar.com/avatar/${MD5(email).toString()}.jpg`;
-    }
-    function generateTimeFromNow() {
-        return moment(this.created).fromNow(); // this bound to item obj
-    }
     const ITEMS_URL = 'http://localhost:4000/items';
     const USERS_URL = 'http://localhost:4000/users';
 
@@ -44,9 +35,6 @@ export const fetchItemsAndUsers = () => dispatch => {
 
             const userTable = {};
             usersArray.forEach(user => {
-                // add time from now and gravatarurl
-                user.gravatarurl = generateGravatarURL(user.email);
-                // generate userTable
                 userTable[user.id] = user;
             });
 
@@ -57,10 +45,9 @@ export const fetchItemsAndUsers = () => dispatch => {
                 if (item.borrower) {
                     item.borrower = userTable[item.borrower];
                 }
-                item.timeFromNowFunc = generateTimeFromNow.bind(item);
                 return item;
             });
-            dispatch(setItemsMaster(newItemsData));
+            dispatch(getItems(newItemsData));
         })
         .catch(error => dispatch(getItemsError(error.message)));
 };
@@ -70,43 +57,33 @@ export const fetchItemsAndUsers = () => dispatch => {
 export default (
     state = {
         itemsData: [],
-        itemsMaster: [],
-        isLoaded: false,
+        itemsFilters: [],
+        isLoading: false,
         error: null
     },
     action
 ) => {
     switch (action.type) {
     case ITEMS_GET_LOADING: {
-        return { ...state, isLoaded: false, error: null };
+        return { ...state, isLoading: true, error: null };
     }
-    case ITEMS_SET_MASTER: {
-        const itemsMaster = action.payload;
-        const itemsData = state.itemsData.length
-            ? state.itemsData
-            : itemsMaster;
+    case ITEMS_GET: {
+        const itemsData = action.payload;
         return {
             ...state,
             itemsData,
-            itemsMaster,
-            isLoaded: true,
+            isLoading: false,
             error: null
         };
     }
     case ITEMS_GET_ERROR: {
-        return { ...state, isLoaded: false, error: action.payload };
+        return { ...state, isLoading: false, error: action.payload };
     }
-    case ITEMS_GET_FILTERED: {
-        let itemsData =
-                action.payload.filterBy && state.itemsMaster.length
-                    ? filterItemList(state.itemsMaster, action.payload.filterBy)
-                    : state.itemsData;
-        if (!itemsData.length) {
-            itemsData = state.itemsMaster;
-        }
+    case ITEMS_GET_FILTERS: {
+        const itemsFilters = action.payload;
         return {
             ...state,
-            itemsData,
+            itemsFilters,
             error: null
         };
     }

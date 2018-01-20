@@ -8,6 +8,8 @@ import {
     CardText
 } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import MD5 from 'crypto-js/md5';
+import moment from 'moment';
 import './styles.css';
 
 const ItemCard = ({ item }) => (
@@ -28,8 +30,10 @@ const ItemCard = ({ item }) => (
         )}
         <CardHeader
             title={item.itemowner.fullname}
-            subtitle={item.timeFromNowFunc(item.created)} // todo: Date passed since post moment.js
-            avatar={item.itemowner.gravatarurl}
+            subtitle={moment(item.created).fromNow()} // todo: Date passed since post moment.js
+            avatar={`//www.gravatar.com/avatar/${MD5(
+                item.itemowner.email
+            ).toString()}.jpg`}
         />
         <CardTitle title={item.title} subtitle={item.tags.join(', ')} />
         <CardText>{item.description}</CardText>
