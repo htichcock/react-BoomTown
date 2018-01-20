@@ -18,13 +18,10 @@
   align-items: flex-start;
   justify-content: center;
   flex-flow: row wrap;
-  margin: 0;
+  margin: 0 0 8px;
 }
 .logo-wrapper {
   margin: 4px 32px 0 16px;
-}
-.filter-select {
-  margin-bottom: 8px;
 }
 .profile-button {
   margin: 0 15px;
