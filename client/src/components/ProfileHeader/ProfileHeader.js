@@ -18,12 +18,16 @@ const ProfileHeader = ({ user }) => (
             <div className="user-info">
                 <div className="user-stats">
                     <p>
-                        <span className="num-of-items">{user.shared}</span>
-                        {' Items Shared'}
+                        <span className="num-of-items">{`${
+                            user.shared
+                        } `}</span>
+                        {'Items Shared'}
                     </p>
                     <p>
-                        <span className="num-of-items">{user.borrowed}</span>
-                        {' Items Borrowed'}
+                        <span className="num-of-items">{`${
+                            user.borrowed
+                        } `}</span>
+                        {'Items Borrowed'}
                     </p>
                 </div>
                 <div className="profile-avatar-wrapper">
