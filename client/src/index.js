@@ -11,7 +11,7 @@ import './index.css';
 import muiTheme from './config/theme';
 
 import Layout from './components/Layout';
-import NotFound from './containers/NotFound';
+import NotFound from './components/NotFound';
 import Login from './containers/Login';
 import Items from './containers/Items';
 import Profile from './containers/Profile';

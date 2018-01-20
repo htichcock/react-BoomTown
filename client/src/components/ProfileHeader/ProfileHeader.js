@@ -3,6 +3,8 @@ import Paper from 'material-ui/Paper';
 import MD5 from 'crypto-js/md5';
 import Avatar from 'material-ui/Avatar';
 
+import './styles.css';
+
 const ProfileHeader = ({ user }) => (
     <Paper
         style={{ maxWidth: '800px', margin: '40px auto 32px', padding: '32px' }}
