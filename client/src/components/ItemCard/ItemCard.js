@@ -15,21 +15,18 @@ import './styles.css';
 
 import mockCurrentUser from '../../mockCurrentUser';
 
+const overlayLogic = item => {
+    if (mockCurrentUser.id === item.itemowner.id) {
+        return <CardTitle title={`Lent to ${item.borrower.fullname}`} />;
+    } else if (mockCurrentUser.id === item.borrower.id) {
+        return <CardTitle title={'You are borrowing this.'} />;
+    }
+    return <CardTitle title={'Unavailable'} />;
+};
 const ItemCard = ({ item }) => (
     <Card key={item.id}>
         {item.borrower ? (
-            <CardMedia
-                className="media-overlay"
-                overlay={
-                    mockCurrentUser.id === item.itemowner.id ? (
-                        <CardTitle
-                            title={`Lent to ${item.borrower.fullname}`}
-                        />
-                    ) : (
-                        <CardTitle title={'Unavailable'} />
-                    )
-                }
-            >
+            <CardMedia className="media-overlay" overlay={overlayLogic(item)}>
                 <img src={item.imageurl} alt={item.title} />
             </CardMedia>
         ) : (
