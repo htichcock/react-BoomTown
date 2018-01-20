@@ -60,14 +60,14 @@ export default (
 ) => {
     switch (action.type) {
     case PROFILE_GET_LOADING: {
-        return { ...state, isLoading: false, error: null };
+        return { ...state, isLoading: true, error: null };
     }
     case PROFILE_GET_ITEMS: {
         const profileItemsData = action.payload;
         return {
             ...state,
             profileItemsData,
-            isLoading: true,
+            isLoading: false,
             error: null
         };
     }

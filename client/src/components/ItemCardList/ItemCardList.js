@@ -10,7 +10,7 @@ const ItemCardList = ({ itemsData, itemsFilters }) => (
             transitionDuration: '0.5s'
         }}
     >
-        {itemsFilters.length
+        {itemsFilters && itemsFilters.length
             ? itemsData
                 .filter(item =>
                     item.tags.some(tag => itemsFilters.includes(tag))
