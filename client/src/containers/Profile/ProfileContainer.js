@@ -6,7 +6,6 @@ import { fetchItemsAndUsers } from '../../redux/modules/profile';
 class ProfileContainer extends Component {
     static propTypes = {};
     componentDidMount() {
-        console.log(this.props);
         this.props.dispatch(fetchItemsAndUsers(this.props.match.params.userId));
     }
     render() {
