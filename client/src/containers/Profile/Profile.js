@@ -5,7 +5,7 @@ import ItemCardList from '../../components/ItemCardList';
 import ProfileHeader from '../../components/ProfileHeader';
 import './styles.css';
 
-const Items = ({ profileItemsData, isLoading, user }) =>
+const Profile = ({ profileItemsData, isLoading, user }) =>
     (!isLoading ? (
         <div style={{ width: '100%' }}>
             <ProfileHeader user={user} />
@@ -16,7 +16,7 @@ const Items = ({ profileItemsData, isLoading, user }) =>
             <CircularProgress color="white" />
         </div>
     ));
-Items.propTypes = {
-    itemList: PropTypes.array.isRequired
+Profile.propTypes = {
+    profileItemsData: PropTypes.array.isRequired
 };
-export default Items;
+export default Profile;

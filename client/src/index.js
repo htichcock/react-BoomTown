@@ -27,7 +27,12 @@ const Boomtown = () => (
                         <Route
                             exact
                             path="/profile/:userId"
-                            component={Profile}
+                            render={routeProps => (
+                                <Profile
+                                    {...routeProps}
+                                    key={routeProps.match.params.userId}
+                                />
+                            )}
                         />
                         {/* <Route exact path="/login" component={Share} />  */}
                         <Route path="/" component={NotFound} />
