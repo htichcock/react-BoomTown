@@ -1,11 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import Share from './Share';
 
-class ShareContainer extends Component {
-    render() {
-        return <Share />;
-    }
-}
+const ShareContainer = () => <Share />;
 
 export default ShareContainer;

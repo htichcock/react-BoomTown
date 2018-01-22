@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link, Route } from 'react-router-dom';
@@ -74,4 +75,10 @@ const mapStateToProps = state => ({
     itemsData: state.items.itemsData,
     itemsFilters: state.items.itemsFilters
 });
+HeaderBar.propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    itemsFilters: PropTypes.array.isRequired,
+    itemsData: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired
+};
 export default connect(mapStateToProps)(HeaderBar);

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
     Card,
     CardActions,
@@ -23,6 +24,7 @@ const overlayLogic = item => {
     }
     return <CardTitle title={'Unavailable'} />;
 };
+
 const ItemCard = ({ item }) => (
     <Card key={item.id}>
         {item.borrower ? (
@@ -50,5 +52,8 @@ const ItemCard = ({ item }) => (
         </CardActions>
     </Card>
 );
+ItemCard.propTypes = {
+    item: PropTypes.object.isRequired
+};
 
 export default ItemCard;

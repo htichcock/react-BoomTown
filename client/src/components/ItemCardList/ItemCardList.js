@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-component';
 import ItemCard from '../ItemCard';
 import './styles.css';
 
-const ItemCardList = ({ itemsData, itemsFilters }) => (
+const ItemCardList = ({ itemsData, itemsFilters = [] }) => (
     <Masonry // default 'div'
         className="item-gallery"
         options={{
@@ -27,4 +28,11 @@ const ItemCardList = ({ itemsData, itemsFilters }) => (
             ))}
     </Masonry>
 );
+ItemCardList.propTypes = {
+    itemsData: PropTypes.array.isRequired,
+    itemsFilters: PropTypes.array
+};
+ItemCardList.defaultProps = {
+    itemsFilters: []
+};
 export default ItemCardList;

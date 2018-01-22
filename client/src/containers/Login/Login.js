@@ -13,13 +13,12 @@ import topRight from '../../images/home-tr.svg';
 
 const Login = ({ login }) => (
     <div className="page login">
-        <style
-            dangerouslySetInnerHTML={{
-                __html: `
-@media screen and (min-height: 400px) {
-    body { overflow: hidden }
-}
-`
+        <div
+            ref={div => {
+                this.overflowFix = div;
+                this.overflowFix.innerHTML = `<style> @media screen and (min-height: 400px) {
+                    body { overflow: hidden }
+                    } </style> `;
             }}
         />
         <div className="logo">

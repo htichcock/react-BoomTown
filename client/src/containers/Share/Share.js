@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Share extends Component {
-    render() {
-        return <div>Share </div>;
-    }
-}
+const Share = () => <div>Share </div>;
 
 export default Share;

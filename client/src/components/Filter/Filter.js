@@ -41,6 +41,9 @@ const Filter = ({ handleChange, values, itemsData, isLoading }) =>
     ));
 
 Filter.propTypes = {
-    itemsMaster: PropTypes.array.isRequired
+    values: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    itemsData: PropTypes.array.isRequired,
+    handleChange: PropTypes.func.isRequired
 };
 export default Filter;

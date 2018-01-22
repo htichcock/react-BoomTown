@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Items from './Items';
 import { fetchItemsAndUsers } from '../../redux/modules/items';
 
 class ItemsContainer extends Component {
-    static propTypes = {};
+    static propTypes = {
+        itemsData: PropTypes.array.isRequired,
+        isLoading: PropTypes.bool.isRequired,
+        itemsFilters: PropTypes.array.isRequired,
+        dispatch: PropTypes.func.isRequired
+    };
     componentDidMount() {
         this.props.dispatch(fetchItemsAndUsers());
     }

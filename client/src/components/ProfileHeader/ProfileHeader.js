@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
 import MD5 from 'crypto-js/md5';
 import Avatar from 'material-ui/Avatar';
@@ -42,5 +43,8 @@ const ProfileHeader = ({ user }) => (
         </div>
     </Paper>
 );
+ProfileHeader.propTypes = {
+    user: PropTypes.object.isRequired
+};
 
 export default ProfileHeader;

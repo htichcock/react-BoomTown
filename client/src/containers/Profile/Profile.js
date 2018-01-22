@@ -17,6 +17,8 @@ const Profile = ({ profileItemsData, isLoading, user }) =>
         </div>
     ));
 Profile.propTypes = {
-    profileItemsData: PropTypes.array.isRequired
+    profileItemsData: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired
 };
 export default Profile;
