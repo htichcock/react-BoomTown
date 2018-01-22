@@ -16,6 +16,8 @@ From inside the `client` directory, run:
 npm run dev
 ```
 
+![Boomtown Screenshot](https://i.imgur.com/jHseZuW.png)
+
 ## Description
 
 This is the client side half of an app called Boomtown. The purpose of the app is to allow users to "share" items and "borrow" other users items.
@@ -28,6 +30,9 @@ The app is built off a starter package using React and Redux and takes advantage
 * Redux/redux-thunk
 * fetch
 
-## Personal Learnings
+## todo
 
-I feel more and more comfortable using react and redux and managing state through the store. It was really tough to map the application
+* use local storage
+* fix master branch
+* probably a lot of refactoring as I learn
+* finish out the project by building out the server
