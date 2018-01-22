@@ -6,8 +6,9 @@
   justify-content: space-between;
 }
 .user-profile-bio {
-  flex: 0 1 50%;
+  flex: 0 1 40%;
   align-self: flex-start;
+  margin: 0 24px;
 }
 .user-name {
   font-size: 2.5rem;
@@ -19,8 +20,27 @@
   margin-bottom: 1rem;
 }
 .user-info {
-  max-width: 368px;
-  min-width: 248px;
+  flex: 1 1 40%;
+  align-self: flex-start;
+  margin: 0 24px;
   height: 180px;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.user-stats {
+  flex: 0 1 50%;
+}
+.user-stats p {
+  color: rgba(38, 50, 56, 0.54);
+  margin-bottom: 1rem;
+}
+.user-stats span {
+  font-size: 20px;
+  display: block;
+  width: 100%;
+  color: black;
+}
+.profile-avatar-wrapper {
+  flex: 0 1 50%;
 }
