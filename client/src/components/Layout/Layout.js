@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Link, Route, Switch } from 'react-router-dom';
@@ -46,4 +47,6 @@ Layout.propTypes = {
     children: PropTypes.node
 };
 
-export default Layout;
+export default connect(state => ({
+    location: state.location
+}))(Layout);

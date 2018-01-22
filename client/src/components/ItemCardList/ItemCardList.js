@@ -4,7 +4,7 @@ import Masonry from 'react-masonry-component';
 import ItemCard from '../ItemCard';
 import './styles.css';
 
-const ItemCardList = ({ itemsData, itemsFilters = [] }) => (
+const ItemCardList = ({ itemsData, itemsFilters }) => (
     <Masonry // default 'div'
         className="item-gallery"
         options={{
