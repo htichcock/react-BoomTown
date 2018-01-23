@@ -16,9 +16,11 @@ const Login = ({ login }) => (
         <div
             ref={div => {
                 this.overflowFix = div;
-                this.overflowFix.innerHTML = `<style> @media screen and (min-height: 400px) {
+                if (this.overflowFix) {
+                    this.overflowFix.innerHTML = `<style> @media screen and (min-height: 400px) {
                     body { overflow: hidden }
                     } </style> `;
+                }
             }}
         />
         <div className="logo">
