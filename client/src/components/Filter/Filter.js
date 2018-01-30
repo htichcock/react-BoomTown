@@ -19,7 +19,7 @@ const Filter = ({ handleChange, values, itemsData, isLoading }) =>
             hintText="Filter by Tag"
         >
             {itemsData
-                .map(item => item.tags)
+                .map(item => item.tags.map(tag => tag.title))
                 .join()
                 .split(',')
                 .reduce(

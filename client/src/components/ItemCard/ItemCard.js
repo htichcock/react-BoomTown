@@ -45,7 +45,10 @@ const ItemCard = ({ item }) => (
                 ).toString()}.jpg`}
             />
         </Link>
-        <CardTitle title={item.title} subtitle={item.tags.join(', ')} />
+        <CardTitle
+            title={item.title}
+            subtitle={item.tags.map(tag => tag.title).join(', ')}
+        />
         <CardText>{item.description}</CardText>
         <CardActions>
             {!item.borrower && <RaisedButton secondary label="borrow" />}
