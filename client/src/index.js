@@ -18,6 +18,14 @@ import NotFound from './components/NotFound';
 import Login from './containers/Login';
 import Items from './containers/Items';
 import Profile from './containers/Profile';
+import PrivateRoute from './components/PrivateRoute';
+
+import { firebaseAuth } from './config/firebaseConfig';
+import { getAuth } from './redux/modules/auth';
+/*
+    let getProfile= false;
+    add new action to set user is loading.. do this is you have to...
+*/
 
 const Boomtown = () => (
     <MuiThemeProvider muiTheme={muiTheme}>
@@ -27,19 +35,14 @@ const Boomtown = () => (
                     <Layout>
                         <Switch>
                             <Route exact path="/login" component={Login} />
-                            <Route exact path="/" component={Items} />
-                            <Route
+                            <PrivateRoute exact path="/" component={Items} />
+                            <PrivateRoute
                                 exact
                                 path="/profile/:userId"
-                                render={routeProps => (
-                                    <Profile
-                                        {...routeProps}
-                                        key={routeProps.match.params.userId}
-                                    />
-                                )}
+                                component={Profile}
                             />
                             {/* <Route exact path="/login" component={Share} />  */}
-                            <Route path="/" component={NotFound} />
+                            <PrivateRoute path="/" component={NotFound} />
                         </Switch>
                     </Layout>
                 </Router>

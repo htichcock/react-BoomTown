@@ -1,6 +1,7 @@
+const DataLoader = require("dataloader");
+
 module.exports = ({
-  postgresResource: { getTags, getItem, getItems, getSharedItems },
-  firebaseResource: { getUser, getUsers }
+  postgresResource: { getItem, getItems, getSharedItems, getUser, getUsers }
 }) => ({
   Query: {
     items() {
@@ -18,6 +19,7 @@ module.exports = ({
   },
   Mutation: {
     addItem(root, payload) {
+      console.log(payload);
       return { title: payload.newItem.title };
     },
     updateItem(root, payload) {
@@ -31,8 +33,8 @@ module.exports = ({
     borrower(item) {
       return item.borrower ? getUser(item.borrower) : null;
     },
-    tags(item) {
-      return getTags(item.id);
+    async tags(item) {
+      return (await getItem(item.id)).tags;
     }
   },
   User: {
