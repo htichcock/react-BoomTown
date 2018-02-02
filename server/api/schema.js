@@ -19,7 +19,7 @@ module.exports = `
     itemowner: User
     borrower: User
     imageurl: String
-    available: Boolean
+    created: String
     tags: [Tag]
   }
   input TagInput {
