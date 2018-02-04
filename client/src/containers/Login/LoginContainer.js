@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import CircularProgress from 'material-ui/CircularProgress';
 import { firebaseAuth } from '../../config/firebaseConfig';
 import Login from './Login';
 
@@ -9,10 +11,21 @@ class LoginContainer extends Component {
             email: '',
             password: '',
             emailErr: '',
-            passwordErr: ''
+            passwordErr: '',
+            redirect: false,
+            isLoading: true
         };
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePassChange = this.handlePassChange.bind(this);
+        this.authchange = firebaseAuth.onAuthStateChanged(user => {
+            if (user) {
+                this.setState({ redirect: true });
+                this.setState({ isLoading: false });
+            } else {
+                this.setState({ isLoading: false });
+                this.setState({ redirect: false });
+            }
+        });
     }
     handleEmailChange(ev) {
         this.setState({ email: ev.target.value, emailErr: '' });
@@ -63,16 +76,25 @@ class LoginContainer extends Component {
     };
 
     render() {
+        if (!this.state.isLoading) {
+            return this.state.redirect ? (
+                <Redirect to="/" />
+            ) : (
+                <Login
+                    login={this.login}
+                    handleEmailChange={this.handleEmailChange}
+                    handlePassChange={this.handlePassChange}
+                    passwordValue={this.state.password}
+                    emailValue={this.state.email}
+                    emailErr={this.state.emailErr}
+                    passwordErr={this.state.passwordErr}
+                />
+            );
+        }
         return (
-            <Login
-                login={this.login}
-                handleEmailChange={this.handleEmailChange}
-                handlePassChange={this.handlePassChange}
-                passwordValue={this.state.password}
-                emailValue={this.state.email}
-                emailErr={this.state.emailErr}
-                passwordErr={this.state.passwordErr}
-            />
+            <div className="loading-wrapper">
+                <CircularProgress color="white" />
+            </div>
         );
     }
 }
