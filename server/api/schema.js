@@ -24,12 +24,12 @@ module.exports = `
   }
   input TagInput {
     id: ID
-    title: String
   }
   input AddItemInput {
     imageurl: String
     title: String
     description: String
+    itemowner: ID
     tags: [TagInput]
   }
   input UpdateItemInput {

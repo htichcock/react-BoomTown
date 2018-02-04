@@ -14,12 +14,12 @@ import MD5 from 'crypto-js/md5';
 import moment from 'moment';
 import './styles.css';
 
-import mockCurrentUser from '../../mockCurrentUser';
+import { firebaseAuth } from '../../config/firebaseConfig';
 
 const overlayLogic = item => {
-    if (mockCurrentUser.id === item.itemowner.id) {
+    if (firebaseAuth.currentUser.uid === item.itemowner.id) {
         return <CardTitle title={`Lent to ${item.borrower.fullname}`} />;
-    } else if (mockCurrentUser.id === item.borrower.id) {
+    } else if (firebaseAuth.currentUser.uid === item.borrower.id) {
         return <CardTitle title={'You are borrowing this.'} />;
     }
     return <CardTitle title={'Unavailable'} />;
@@ -51,7 +51,10 @@ const ItemCard = ({ item }) => (
         />
         <CardText>{item.description}</CardText>
         <CardActions>
-            {!item.borrower && <RaisedButton secondary label="borrow" />}
+            {!item.borrower &&
+                firebaseAuth.currentUser.uid !== item.itemowner.id && (
+                    <RaisedButton secondary label="borrow" />
+                )}
         </CardActions>
     </Card>
 );

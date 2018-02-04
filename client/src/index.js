@@ -18,6 +18,7 @@ import NotFound from './components/NotFound';
 import Login from './containers/Login';
 import Items from './containers/Items';
 import Profile from './containers/Profile';
+import Share from './containers/Share';
 import PrivateRoute from './components/PrivateRoute';
 
 import { firebaseAuth } from './config/firebaseConfig';
@@ -39,9 +40,18 @@ const Boomtown = () => (
                             <PrivateRoute
                                 exact
                                 path="/profile/:userId"
-                                component={Profile}
+                                render={routeProps => (
+                                    <Profile
+                                        {...routeProps}
+                                        key={routeProps.match.params.userId}
+                                    />
+                                )}
                             />
-                            {/* <Route exact path="/login" component={Share} />  */}
+                            <PrivateRoute
+                                exact
+                                path="/share"
+                                component={Share}
+                            />
                             <PrivateRoute path="/" component={NotFound} />
                         </Switch>
                     </Layout>

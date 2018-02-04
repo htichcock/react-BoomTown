@@ -55,6 +55,32 @@ module.exports = async app => {
         console.log(e);
         return [];
       }
+    },
+    async createItem({ title, description, imageurl, itemowner, tags }) {
+      try {
+        await client.query("BEGIN");
+
+        const itemValues = [title, description, imageurl, itemowner];
+        const itemInsert =
+          "INSERT INTO items(title, description, imageurl, itemowner) VALUES ($1,$2, $3, $4) RETURNING *";
+
+        const itemResult = (await client.query(itemInsert, itemValues)).rows[0];
+
+        safeValues = tags.map((tagid, i) => `($1, $${i + 2})`).join(", ");
+        const itemTagInsert = `INSERT INTO item_tags VALUES ${safeValues}`;
+        itemTagsValues = [itemResult.id, ...tags.map(t => t.id)];
+
+        const itemTagsResult = (await client.query(
+          itemTagInsert,
+          itemTagsValues
+        )).rows[0];
+
+        await client.query("COMMIT");
+        return itemResult;
+      } catch (e) {
+        await client.query("ROLLBACK");
+        throw e;
+      }
     }
   };
 };

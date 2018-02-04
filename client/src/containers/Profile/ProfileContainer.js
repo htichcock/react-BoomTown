@@ -1,38 +1,47 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import gql from 'graphql-tag';
 import Profile from './Profile';
-import { fetchItemsAndUsers } from '../../redux/modules/profile';
-import NotFound from '../../components/NotFound/NotFound';
+import NotFound from '../../components/NotFound';
 
-class ProfileContainer extends Component {
-    static propTypes = {
-        profileItemsData: PropTypes.array.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        profileUser: PropTypes.object.isRequired,
-        dispatch: PropTypes.func.isRequired,
-        match: PropTypes.object.isRequired
-    };
+const ProfileContainer = ({ data }) => {
+    if (data.loading || (data.user && data.user.id)) {
+        return <Profile user={data.user} isLoading={data.loading} />;
+    }
+    return <NotFound />;
+};
 
-    componentDidMount() {
-        this.props.dispatch(fetchItemsAndUsers(this.props.match.params.userId));
+const fetchUser = gql`
+    query fetchUser($id: ID) {
+        user(id: $id) {
+            id
+            fullname
+            email
+            shareditems {
+                id
+                title
+                description
+                itemowner {
+                    id
+                    fullname
+                    email
+                }
+                borrower {
+                    id
+                    fullname
+                }
+                imageurl
+                created
+                tags {
+                    id
+                    title
+                }
+            }
+        }
     }
-    render() {
-        return this.props.profileUser.id || this.props.isLoading ? (
-            <Profile
-                profileItemsData={this.props.profileItemsData}
-                user={this.props.profileUser}
-                isLoading={this.props.isLoading}
-            />
-        ) : (
-            <NotFound />
-        );
-    }
-}
-const mapStateToProps = state => ({
-    isLoading: state.profile.isLoading,
-    profileItemsData: state.profile.profileItemsData,
-    profileUser: state.profile.profileUser,
-    error: state.items.error
-});
-export default connect(mapStateToProps)(ProfileContainer);
+`;
+
+export default graphql(fetchUser, {
+    options: ({ match }) => ({ variables: { id: match.params.userId } })
+})(ProfileContainer);

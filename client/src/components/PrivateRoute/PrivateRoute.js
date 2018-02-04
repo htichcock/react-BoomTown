@@ -29,6 +29,9 @@ export default class PrivateRoute extends Component {
                 <Redirect to="/login" />
             );
         }
+        if (this.props.noLoader) {
+            return <div />;
+        }
         return (
             <div className="loading-wrapper">
                 <CircularProgress color="white" />

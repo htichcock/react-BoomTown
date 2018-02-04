@@ -1,5 +1,5 @@
 module.exports = ({
-  postgresResource: { getTags, getItem, getItems, getSharedItems },
+  postgresResource: { getTags, getItem, getItems, getSharedItems, createItem },
   firebaseResource: { getUser, getUsers }
 }) => ({
   Query: {
@@ -17,8 +17,8 @@ module.exports = ({
     }
   },
   Mutation: {
-    addItem(root, payload) {
-      return { title: payload.newItem.title };
+    addItem(root, { newItem }) {
+      return createItem(newItem);
     },
     updateItem(root, payload) {
       return { id: payload.updatedItem.id };

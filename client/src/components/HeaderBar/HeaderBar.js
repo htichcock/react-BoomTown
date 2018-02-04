@@ -8,7 +8,7 @@ import Filter from '../Filter';
 import logo from '../../images/boomtown-logo.svg';
 import './styles.css';
 import { getItemsFilters } from '../../redux/modules/items';
-import mockCurrentUser from '../../mockCurrentUser';
+import { firebaseAuth } from '../../config/firebaseConfig';
 
 const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
     <div className="app-header-wrapper">
@@ -46,14 +46,24 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
             }
             iconElementRight={
                 <div className="nav-btn-wrapper">
-                    <Link to={`/profile/${mockCurrentUser.id}`}>
+                    {firebaseAuth.currentUser ? (
+                        <Link to={`/profile/${firebaseAuth.currentUser.uid}`}>
+                            <RaisedButton
+                                labelStyle={{ fontWeight: 400 }}
+                                label="My Profile"
+                                className="profile-button"
+                                primary
+                            />
+                        </Link>
+                    ) : (
                         <RaisedButton
+                            disabled
                             labelStyle={{ fontWeight: 400 }}
                             label="My Profile"
                             className="profile-button"
                             primary
                         />
-                    </Link>
+                    )}
                     <Link to={'/login'}>
                         <RaisedButton
                             labelStyle={{ fontWeight: 400 }}

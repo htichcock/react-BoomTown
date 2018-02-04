@@ -5,11 +5,11 @@ import ItemCardList from '../../components/ItemCardList';
 import ProfileHeader from '../../components/ProfileHeader';
 import './styles.css';
 
-const Profile = ({ profileItemsData, isLoading, user }) =>
+const Profile = ({ isLoading, user }) =>
     (!isLoading ? (
         <div style={{ width: '100%' }}>
             <ProfileHeader user={user} />
-            <ItemCardList itemsData={profileItemsData} />
+            <ItemCardList itemsData={user.shareditems} />
         </div>
     ) : (
         <div className="loading-wrapper">
