@@ -46,29 +46,25 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
             }
             iconElementRight={
                 <div className="nav-btn-wrapper">
-                    {firebaseAuth.currentUser ? (
-                        <Link to={`/profile/${firebaseAuth.currentUser.uid}`}>
-                            <RaisedButton
-                                labelStyle={{ fontWeight: 400 }}
-                                label="My Profile"
-                                className="profile-button"
-                                primary
-                            />
-                        </Link>
-                    ) : (
+                    <Link to={`/profile/${firebaseAuth.currentUser.uid}`}>
                         <RaisedButton
-                            disabled
                             labelStyle={{ fontWeight: 400 }}
                             label="My Profile"
                             className="profile-button"
                             primary
                         />
-                    )}
+                    </Link>
                     <Link to={'/login'}>
                         <RaisedButton
                             labelStyle={{ fontWeight: 400 }}
                             secondary
                             label="Logout"
+                            onClick={() => {
+                                firebaseAuth.signOut().catch(error => {
+                                    console.log(error);
+                                    // todo: make this more obvious and meaningful.
+                                });
+                            }}
                         />
                     </Link>
                 </div>
