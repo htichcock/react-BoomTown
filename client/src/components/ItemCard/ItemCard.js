@@ -13,13 +13,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MD5 from 'crypto-js/md5';
 import moment from 'moment';
 import './styles.css';
+import itemPlaceholder from '../../images/item-placeholder.jpg';
 
-import mockCurrentUser from '../../mockCurrentUser';
+import { firebaseAuth } from '../../config/firebaseConfig';
 
 const overlayLogic = item => {
-    if (mockCurrentUser.id === item.itemowner.id) {
+    if (firebaseAuth.currentUser.uid === item.itemowner.id) {
         return <CardTitle title={`Lent to ${item.borrower.fullname}`} />;
-    } else if (mockCurrentUser.id === item.borrower.id) {
+    } else if (firebaseAuth.currentUser.uid === item.borrower.id) {
         return <CardTitle title={'You are borrowing this.'} />;
     }
     return <CardTitle title={'Unavailable'} />;
@@ -33,7 +34,10 @@ const ItemCard = ({ item }) => (
             </CardMedia>
         ) : (
             <CardMedia>
-                <img src={item.imageurl} alt={item.title} />
+                <img
+                    src={item.imageurl ? item.imageurl : itemPlaceholder}
+                    alt={item.title}
+                />
             </CardMedia>
         )}
         <Link to={`/profile/${item.itemowner.id}`}>
@@ -45,10 +49,18 @@ const ItemCard = ({ item }) => (
                 ).toString()}.jpg`}
             />
         </Link>
-        <CardTitle title={item.title} subtitle={item.tags.join(', ')} />
-        <CardText>{item.description}</CardText>
+        <CardTitle
+            title={item.title ? item.title : 'Amazing Item Title'}
+            subtitle={item.tags.map(tag => tag.title).join(', ')}
+        />
+        <CardText>
+            {item.description ? item.description : 'Profound item description.'}
+        </CardText>
         <CardActions>
-            {!item.borrower && <RaisedButton secondary label="borrow" />}
+            {!item.borrower &&
+                firebaseAuth.currentUser.uid !== item.itemowner.id && (
+                    <RaisedButton secondary label="borrow" />
+                )}
         </CardActions>
     </Card>
 );

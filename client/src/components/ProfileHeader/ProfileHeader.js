@@ -20,13 +20,13 @@ const ProfileHeader = ({ user }) => (
                 <div className="user-stats">
                     <p>
                         <span className="num-of-items">{`${
-                            user.shared
+                            user.shareditems.length
                         } `}</span>
                         {'Items Shared'}
                     </p>
                     <p>
                         <span className="num-of-items">{`${
-                            user.borrowed
+                            user.shareditems.length
                         } `}</span>
                         {'Items Borrowed'}
                     </p>

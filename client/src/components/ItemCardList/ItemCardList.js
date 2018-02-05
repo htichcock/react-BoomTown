@@ -14,7 +14,13 @@ const ItemCardList = ({ itemsData, itemsFilters }) => (
         {itemsFilters && itemsFilters.length
             ? itemsData
                 .filter(item =>
-                    item.tags.some(tag => itemsFilters.includes(tag))
+                    item.tags
+                        .map(tag => tag.title)
+                        .some(tag =>
+                            itemsFilters
+                                .map(filter => filter.title)
+                                .includes(tag)
+                        )
                 )
                 .map(item => (
                     <div key={item.id} className="card-wrapper">

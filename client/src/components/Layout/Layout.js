@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Link, Route, Switch } from 'react-router-dom';
+import PrivateRoute from '../PrivateRoute';
 import HeaderBar from '../HeaderBar';
 
 import './styles.css';
@@ -23,7 +24,7 @@ const Layout = ({ children }) => (
     <div className="app-content-wrapper">
         <Switch>
             <Route exact path="/login" />
-            <Route path="/" component={HeaderBar} />
+            <PrivateRoute noLoader path="/" component={HeaderBar} />
         </Switch>
         <div className="app-content">
             {children}

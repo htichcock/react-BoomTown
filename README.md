@@ -16,6 +16,9 @@ From inside the `client` directory, run:
 npm run dev
 ```
 
+login mandi@redacademy.com
+pass: password
+
 ![Boomtown Screenshot](https://i.imgur.com/jHseZuW.png)
 
 ## Description
@@ -28,10 +31,15 @@ The app is built off a starter package using React and Redux and takes advantage
 
 * React/react-router/react-router-redux
 * Redux/redux-thunk
-* fetch
+* GraphQL
+* Apollo
+* Node Express
 
 ## todo
 
-* use local storage
+* improve error handling on both login form and share form
+* use and understand dataloaders
+* all the proptypes (sorry)
+* add borrow and delete mutations
+* refactor from redux for filter to apollo-link-state
 * probably a lot of refactoring as I learn
-* finish out the project by building out the server

@@ -10,6 +10,7 @@
 @media screen and (min-width: 960px) {
   .card-wrapper {
     width: 33.33% !important;
+    padding: 0.5% !important;
   }
 }
 .item-gallery {

@@ -8,7 +8,7 @@ import Filter from '../Filter';
 import logo from '../../images/boomtown-logo.svg';
 import './styles.css';
 import { getItemsFilters } from '../../redux/modules/items';
-import mockCurrentUser from '../../mockCurrentUser';
+import { firebaseAuth } from '../../config/firebaseConfig';
 
 const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
     <div className="app-header-wrapper">
@@ -33,11 +33,10 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
                         path="/"
                         render={() => (
                             <Filter
+                                hintText="Filter by Tag"
                                 handleChange={(event, index, values) => {
                                     dispatch(getItemsFilters(values));
                                 }}
-                                isLoading={isLoading}
-                                itemsData={itemsData}
                                 values={itemsFilters}
                             />
                         )}
@@ -46,7 +45,7 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
             }
             iconElementRight={
                 <div className="nav-btn-wrapper">
-                    <Link to={`/profile/${mockCurrentUser.id}`}>
+                    <Link to={`/profile/${firebaseAuth.currentUser.uid}`}>
                         <RaisedButton
                             labelStyle={{ fontWeight: 400 }}
                             label="My Profile"
@@ -59,6 +58,12 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
                             labelStyle={{ fontWeight: 400 }}
                             secondary
                             label="Logout"
+                            onClick={() => {
+                                firebaseAuth.signOut().catch(error => {
+                                    console.log(error);
+                                    // todo: make this more obvious and meaningful.
+                                });
+                            }}
                         />
                     </Link>
                 </div>
@@ -71,8 +76,6 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
 );
 
 const mapStateToProps = state => ({
-    isLoading: state.items.isLoading,
-    itemsData: state.items.itemsData,
     itemsFilters: state.items.itemsFilters
 });
 HeaderBar.propTypes = {

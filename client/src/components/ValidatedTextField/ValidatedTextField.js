@@ -9,17 +9,35 @@ const styles = {
         width: '100%'
     },
     errorStyle: {
-        color: blueGrey900,
+        color: 'red',
         position: 'absolute',
-        bottom: '-0.42rem'
+        bottom: '-1rem'
     },
     underlineStyle: {
         borderColor: blueGrey900
     }
 };
 
-const ValidatedTextField = ({ label }) => (
+const ValidatedTextField = ({
+    label,
+    value,
+    handleChange,
+    type,
+    error,
+    multiLine,
+    rows,
+    floatingLabelShrinkStyle
+}) => (
     <TextField
+        multiLine={multiLine}
+        floatingLabelShrinkStyle={floatingLabelShrinkStyle}
+        rows={rows}
+        value={value}
+        type={type}
+        errorText={error}
+        onChange={e => {
+            handleChange(e);
+        }}
         style={styles.fieldStyle}
         hintText={label}
         floatingLabelText={label}
