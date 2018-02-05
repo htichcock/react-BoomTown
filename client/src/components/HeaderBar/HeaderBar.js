@@ -36,8 +36,6 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
                                 handleChange={(event, index, values) => {
                                     dispatch(getItemsFilters(values));
                                 }}
-                                isLoading={isLoading}
-                                itemsData={itemsData}
                                 values={itemsFilters}
                             />
                         )}
@@ -77,8 +75,6 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
 );
 
 const mapStateToProps = state => ({
-    isLoading: state.items.isLoading,
-    itemsData: state.items.itemsData,
     itemsFilters: state.items.itemsFilters
 });
 HeaderBar.propTypes = {
