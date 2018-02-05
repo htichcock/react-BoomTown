@@ -6,6 +6,7 @@ const { makeExecutableSchema } = require("graphql-tools");
 const typeDefs = require("./api/schema");
 const config = require("./config");
 const initResolvers = require("./api/resolvers");
+const createLoaders = require("./api/loaders");
 
 const app = express();
 
@@ -33,9 +34,10 @@ function start(postgresResource) {
     "/graphql",
     bodyParser.json(),
     graphqlExpress({
-      schema
-      // ,
-      // context: { loaders: createLoaders({ jsonResource }) }
+      schema,
+      context: {
+        loaders: createLoaders({ postgresResource, firebaseResource })
+      }
     })
   );
   // A route for accessing the GraphiQL tool

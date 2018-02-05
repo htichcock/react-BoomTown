@@ -10,20 +10,20 @@ module.exports = ({
   firebaseResource: { getUser, getUsers }
 }) => ({
   Query: {
-    items() {
-      return getItems();
+    items(root, args, context) {
+      return context.loaders.getItems.load(args);
     },
     item(root, { id }) {
       return getItem(id);
     },
-    users() {
-      return getUsers();
+    users(root, args, context) {
+      return context.loaders.getUsers.load(args);
     },
-    user(root, { id }) {
-      return getUser(id);
+    user(root, { id }, context) {
+      return context.loaders.getUser.load(id);
     },
-    allTags() {
-      return getAllTags();
+    allTags(root, args, context) {
+      return context.loaders.getAllTags.load();
     }
   },
   Mutation: {
@@ -42,8 +42,8 @@ module.exports = ({
     borrower(item) {
       return item.borrower ? getUser(item.borrower) : null;
     },
-    tags(item) {
-      return getTags(item.id);
+    tags(item, args, context) {
+      return context.loaders.getTags.load(item.id);
     }
   },
   User: {
