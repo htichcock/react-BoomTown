@@ -31,6 +31,7 @@ module.exports = ({
       return createItem(newItem);
     },
     updateItem(root, payload) {
+      //todo: make this for borrowing, maybe add delete functionality
       return { id: payload.updatedItem.id };
     }
   },

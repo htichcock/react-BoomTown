@@ -1,0 +1,16 @@
+.share-container {
+  min-height: 100%;
+  width: 100%;
+  display: flex;
+}
+.share-container p {
+  color: white;
+}
+.card-preview {
+  max-width: 300px !important;
+  margin: auto;
+}
+.card-preview-wrapper {
+  padding: 5%;
+  flex: 0 0 45%;
+}

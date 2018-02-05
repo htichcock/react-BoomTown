@@ -13,6 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MD5 from 'crypto-js/md5';
 import moment from 'moment';
 import './styles.css';
+import itemPlaceholder from '../../images/item-placeholder.jpg';
 
 import { firebaseAuth } from '../../config/firebaseConfig';
 
@@ -33,7 +34,10 @@ const ItemCard = ({ item }) => (
             </CardMedia>
         ) : (
             <CardMedia>
-                <img src={item.imageurl} alt={item.title} />
+                <img
+                    src={item.imageurl ? item.imageurl : itemPlaceholder}
+                    alt={item.title}
+                />
             </CardMedia>
         )}
         <Link to={`/profile/${item.itemowner.id}`}>
@@ -46,10 +50,12 @@ const ItemCard = ({ item }) => (
             />
         </Link>
         <CardTitle
-            title={item.title}
+            title={item.title ? item.title : 'Amazing Item Title'}
             subtitle={item.tags.map(tag => tag.title).join(', ')}
         />
-        <CardText>{item.description}</CardText>
+        <CardText>
+            {item.description ? item.description : 'Profound item description.'}
+        </CardText>
         <CardActions>
             {!item.borrower &&
                 firebaseAuth.currentUser.uid !== item.itemowner.id && (

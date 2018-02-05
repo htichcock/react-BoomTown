@@ -40,6 +40,7 @@ const fetchItems = gql`
             }
         }
         allTags {
+            id
             title
         }
     }

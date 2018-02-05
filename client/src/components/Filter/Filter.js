@@ -23,9 +23,9 @@ const Filter = ({ handleChange, values, data }) =>
             {data.allTags.map(tag => (
                 <MenuItem
                     insetChildren
-                    key={tag.title}
-                    checked={values && values.indexOf(tag.title) > -1}
-                    value={tag.title}
+                    key={tag.id}
+                    checked={values && values.indexOf(tag) > -1}
+                    value={tag}
                     label={tag.title}
                     primaryText={tag.title}
                 />
@@ -40,6 +40,7 @@ Filter.propTypes = {
 const fetchTags = gql`
     query fetchTags {
         allTags {
+            id
             title
         }
     }
