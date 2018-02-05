@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const Filter = ({ handleChange, values, data }) =>
+const Filter = ({ handleChange, values, data, hintText }) =>
     (data.loading ? (
         <SelectField
             disabled
@@ -18,7 +18,7 @@ const Filter = ({ handleChange, values, data }) =>
             value={values}
             onChange={handleChange}
             className="filter-select"
-            hintText="Filter by Tag"
+            hintText={hintText}
         >
             {data.allTags.map(tag => (
                 <MenuItem

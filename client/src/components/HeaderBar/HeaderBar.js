@@ -33,6 +33,7 @@ const HeaderBar = ({ isLoading, itemsData, itemsFilters, dispatch }) => (
                         path="/"
                         render={() => (
                             <Filter
+                                hintText="Filter by Tag"
                                 handleChange={(event, index, values) => {
                                     dispatch(getItemsFilters(values));
                                 }}

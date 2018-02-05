@@ -12,15 +12,21 @@ const Share = ({
     stepIndex,
     handleNext,
     handlePrev,
-    finished,
     handleFinished,
     handleImage,
     newItemPreview,
     handleTitleChange,
     handleDescriptionChange,
+    handleDescriptionErr,
+    handleTitleErr,
+    titleErr,
+    descriptionErr,
     data,
     uploadProgress,
-    handleFilters
+    handleFilters,
+    imageErr,
+    tagsErr,
+    genErr
 }) => (
     <div className="share-container">
         <div className="card-preview-wrapper">
@@ -60,6 +66,7 @@ const Share = ({
                             <div style={{ margin: '12px 0' }}>
                                 <RaisedButton
                                     label="Select an Image"
+                                    containerElement="label"
                                     style={{ marginRight: 12 }}
                                 >
                                     <input
@@ -81,17 +88,20 @@ const Share = ({
                                         }}
                                     />
                                 </RaisedButton>
+                                <div className="errorMess">{imageErr}</div>
                             </div>
                         )}
                         <div style={{ margin: '12px 0' }}>
-                            <RaisedButton
-                                disabled={!newItemPreview.imageurl}
-                                label="Next"
-                                disableTouchRipple
-                                disableFocusRipple
-                                onClick={handleNext}
-                                style={{ marginRight: 12 }}
-                            />
+                            {newItemPreview.imageurl && (
+                                <RaisedButton
+                                    disabled={!newItemPreview.imageurl}
+                                    label="Next"
+                                    disableTouchRipple
+                                    disableFocusRipple
+                                    onClick={handleNext}
+                                    style={{ marginRight: 12 }}
+                                />
+                            )}
                         </div>
                     </StepContent>
                 </Step>
@@ -108,24 +118,50 @@ const Share = ({
                                 handleChange={handleTitleChange}
                                 value={newItemPreview.title}
                                 type="text"
-                                error=""
+                                error={titleErr}
+                                floatingLabelShrinkStyle={{
+                                    color: 'white'
+                                }}
                             />
                         </div>
                         <div>
                             <ValidatedTextField
                                 label="Description"
                                 handleChange={handleDescriptionChange}
-                                type="textfeild"
+                                type="textarea"
+                                rows="4"
+                                floatingLabelShrinkStyle={{
+                                    color: 'white'
+                                }}
+                                multiLine
                                 value={newItemPreview.description}
-                                error=""
+                                error={descriptionErr}
                             />
                         </div>
-                        <div style={{ margin: '12px 0' }}>
+                        <div style={{ margin: '20px 0' }}>
                             <RaisedButton
                                 label="Next"
                                 disableTouchRipple
                                 disableFocusRipple
-                                onClick={handleNext}
+                                onClick={
+                                    !(
+                                        newItemPreview.description &&
+                                        newItemPreview.title
+                                    )
+                                        ? () => {
+                                            if (!newItemPreview.title) {
+                                                handleTitleErr(
+                                                    'A title is required.'
+                                                );
+                                            }
+                                            if (!newItemPreview.description) {
+                                                handleDescriptionErr(
+                                                    'A description is required.'
+                                                );
+                                            }
+                                        }
+                                        : handleNext
+                                }
                                 style={{ marginRight: 12 }}
                             />
 
@@ -148,14 +184,17 @@ const Share = ({
                             categories. You can select multiple categories.`}
                         </p>
                         <Filter
+                            hintText="Select Category Tags"
                             handleChange={(event, index, values) => {
                                 handleFilters(values);
                             }}
                             values={newItemPreview.tags}
                         />
+                        <div className="errorMess">{tagsErr}</div>
                         <div style={{ margin: '12px 0' }}>
                             <RaisedButton
                                 label="Next"
+                                disabled={!newItemPreview.tags.length}
                                 disableTouchRipple
                                 disableFocusRipple
                                 onClick={handleNext}
@@ -184,6 +223,14 @@ const Share = ({
                         <div style={{ margin: '12px 0' }}>
                             <RaisedButton
                                 label="Confirm"
+                                disabled={
+                                    !(
+                                        newItemPreview.tags.length &&
+                                        newItemPreview.description &&
+                                        newItemPreview.title &&
+                                        newItemPreview.imageurl
+                                    )
+                                }
                                 disableTouchRipple
                                 disableFocusRipple
                                 onClick={handleFinished}
@@ -198,6 +245,7 @@ const Share = ({
                                 onClick={handlePrev}
                             />
                         </div>
+                        <div className="errorMess">{genErr}</div>
                     </StepContent>
                 </Step>
             </Stepper>

@@ -18,8 +18,20 @@ const styles = {
     }
 };
 
-const ValidatedTextField = ({ label, value, handleChange, type, error }) => (
+const ValidatedTextField = ({
+    label,
+    value,
+    handleChange,
+    type,
+    error,
+    multiLine,
+    rows,
+    floatingLabelShrinkStyle
+}) => (
     <TextField
+        multiLine={multiLine}
+        floatingLabelShrinkStyle={floatingLabelShrinkStyle}
+        rows={rows}
         value={value}
         type={type}
         errorText={error}
