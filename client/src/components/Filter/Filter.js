@@ -1,10 +1,12 @@
 import React from 'react';
+import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-const Filter = ({ handleChange, values, itemsData, isLoading }) =>
-    (isLoading ? (
+const Filter = ({ handleChange, values, data }) =>
+    (data.loading ? (
         <SelectField
             disabled
             className="filter-select"
@@ -18,32 +20,29 @@ const Filter = ({ handleChange, values, itemsData, isLoading }) =>
             className="filter-select"
             hintText="Filter by Tag"
         >
-            {itemsData
-                .map(item => item.tags.map(tag => tag.title))
-                .join()
-                .split(',')
-                .reduce(
-                    (accu, curr) =>
-                        (accu.includes(curr) ? accu : accu.concat(curr)),
-                    []
-                )
-                .map(tag => (
-                    <MenuItem
-                        insetChildren
-                        key={tag}
-                        checked={values && values.indexOf(tag) > -1}
-                        value={tag}
-                        label={tag}
-                        primaryText={tag}
-                    />
-                ))}
+            {data.allTags.map(tag => (
+                <MenuItem
+                    insetChildren
+                    key={tag.title}
+                    checked={values && values.indexOf(tag.title) > -1}
+                    value={tag.title}
+                    label={tag.title}
+                    primaryText={tag.title}
+                />
+            ))}
         </SelectField>
     ));
 
 Filter.propTypes = {
     values: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    itemsData: PropTypes.array.isRequired,
     handleChange: PropTypes.func.isRequired
 };
-export default Filter;
+const fetchTags = gql`
+    query fetchTags {
+        allTags {
+            title
+        }
+    }
+`;
+
+export default graphql(fetchTags)(Filter);

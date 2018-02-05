@@ -1,11 +1,16 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import gql from 'graphql-tag';
 import Items from './Items';
 
-const ItemsContainer = ({ data }) => (
-    <Items itemsData={data.items} isLoading={data.loading} />
+const ItemsContainer = ({ data, itemsFilters }) => (
+    <Items
+        itemsData={data.items}
+        isLoading={data.loading}
+        itemsFilters={itemsFilters}
+    />
 );
 
 Items.propTypes = {
@@ -34,7 +39,13 @@ const fetchItems = gql`
                 title
             }
         }
+        allTags {
+            title
+        }
     }
 `;
+const mapStateToProps = state => ({
+    itemsFilters: state.items.itemsFilters
+});
 
-export default graphql(fetchItems)(ItemsContainer);
+export default connect(mapStateToProps)(graphql(fetchItems)(ItemsContainer));

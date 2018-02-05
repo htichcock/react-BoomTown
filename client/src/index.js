@@ -21,13 +21,6 @@ import Profile from './containers/Profile';
 import Share from './containers/Share';
 import PrivateRoute from './components/PrivateRoute';
 
-import { firebaseAuth } from './config/firebaseConfig';
-import { getAuth } from './redux/modules/auth';
-/*
-    let getProfile= false;
-    add new action to set user is loading.. do this is you have to...
-*/
-
 const Boomtown = () => (
     <MuiThemeProvider muiTheme={muiTheme}>
         <ApolloProvider client={client}>

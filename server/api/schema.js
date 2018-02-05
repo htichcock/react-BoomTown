@@ -47,5 +47,6 @@ module.exports = `
     item(id: ID): Item
     users: [User]
     user(id: ID): User
+    allTags: [Tag]
   }
 `;

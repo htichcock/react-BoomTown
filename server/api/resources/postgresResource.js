@@ -31,6 +31,14 @@ module.exports = async app => {
         return [];
       }
     },
+    async getAllTags() {
+      try {
+        return (await client.query("SELECT * FROM tags")).rows;
+      } catch (e) {
+        console.log(e);
+        return [];
+      }
+    },
     async getTags(id) {
       try {
         return (await client.query(

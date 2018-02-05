@@ -1,5 +1,12 @@
 module.exports = ({
-  postgresResource: { getTags, getItem, getItems, getSharedItems, createItem },
+  postgresResource: {
+    getTags,
+    getAllTags,
+    getItem,
+    getItems,
+    getSharedItems,
+    createItem
+  },
   firebaseResource: { getUser, getUsers }
 }) => ({
   Query: {
@@ -14,6 +21,9 @@ module.exports = ({
     },
     user(root, { id }) {
       return getUser(id);
+    },
+    allTags() {
+      return getAllTags();
     }
   },
   Mutation: {
